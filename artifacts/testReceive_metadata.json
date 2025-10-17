@@ -1,0 +1,98 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "demo",
+						"type": "address"
+					}
+				],
+				"name": "sendZeroETH",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "demo",
+						"type": "address"
+					}
+				],
+				"name": "testCallNormalFunction",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "demo",
+						"type": "address"
+					}
+				],
+				"name": "withDataSendETH",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "demo",
+						"type": "address"
+					}
+				],
+				"name": "withOutDataSendETH",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"practise/reciveTest.sol": "testReceive"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"practise/reciveTest.sol": {
+			"keccak256": "0xa5e49a30a641cd80631b59ab035922ea5f7d45613526719b9f025254489fe1ba",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6b36c5ed31570b4815402ee2ef4fa64fc11e8977e2532c74c2575f539f378772",
+				"dweb:/ipfs/QmaWtH3i7nPWw4tmmKmY4hPWmoxRi2BrwSd7jekQLDZDaC"
+			]
+		}
+	},
+	"version": 1
+}
