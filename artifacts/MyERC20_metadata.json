@@ -8,13 +8,36 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "_initSupply",
-						"type": "uint256"
+						"internalType": "string",
+						"name": "_tokenName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_tokenSimple",
+						"type": "string"
 					}
 				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Mint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
 				"inputs": [
@@ -140,11 +163,11 @@
 	},
 	"sources": {
 		"tasktwo/MyERC20.sol": {
-			"keccak256": "0x607afe36966810b2dd6409224e022cc952ab183b2f7281709fee636fafe58f1c",
+			"keccak256": "0x5c8acb765a5a4acf9b4977dfe60ecffbc37f2a75ee04fb01a284232ada170cfd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bfbfe42e62f7a6efa0314fce27630887d4dd8a69de874ed1dfe2300bcd19ce1a",
-				"dweb:/ipfs/QmTrZYKf7wNDy3V829SSojCdb7bHykVvLfAf36xyBFP3Sp"
+				"bzz-raw://a4c787deb2765e54d90c4ae8a0ad5cad6d54b5bb499d30289ce12830bfdd3527",
+				"dweb:/ipfs/QmUPrXE7BqEBctv9vbcs3uJEDUqFuqbAYtE8Y2QkG5YHpF"
 			]
 		}
 	},

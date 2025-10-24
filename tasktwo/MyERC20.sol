@@ -2,15 +2,16 @@
 pragma solidity ^0.8.30;
 
 contract MyERC20{
+    //通证名称
+    string tokenName;
+    //通证简称
+    string tokenSimple;
+
     //合约所有者
     address owner;
 
     //发行代币总量
     uint256 totalSupply;
-
-    //初始代币量
-    uint256 initSupply;
-
 
     //记录账户余额
     mapping (address => uint256) myBalances;
@@ -20,22 +21,25 @@ contract MyERC20{
 
     //添加对应事件
 
-    constructor(uint256 _initSupply){
+    constructor(string memory _tokenName,string memory _tokenSimple){
         owner = msg.sender;
-        if (_initSupply>0){
-            totalSupply = _initSupply;
-            initSupply = _initSupply;
-            myBalances[owner] = _initSupply;
-        }
+        tokenName = _tokenName;
+        tokenSimple = _tokenSimple;
+    }
+
+    function Mint(address to,uint256 amount) public {
+        require(msg.sender == owner,"only owner can call function");
+        myBalances[to] += amount;
+        totalSupply += amount;
     }
 
     //查询账户余额
-    function balanceOf() external view returns (uint256){
+    function balanceOf() public view returns (uint256){
         return myBalances[msg.sender];
     }
 
     //授权,并给出代扣上限
-    function approve(address from,address to, uint256 _value) external returns (bool){
+    function approve(address from,address to, uint256 _value) public returns (bool){
         require(from!=address(0) && to!=address(0),"address can not is zero");
         require(_value>0,"amount must be more than zero");
         myAuthorizedAgent[from][to] = _value;
@@ -43,7 +47,7 @@ contract MyERC20{
     }
 
     //代扣转账
-    function transferFrom(address from,address to, uint256 _value) external returns (bool){
+    function transferFrom(address from,address to, uint256 _value) public returns (bool){
         require(from!=address(0) && to!=address(0),"address can not is zero");
         require(_value>0,"amount must be more than zero");
         require(myBalances[from]>=_value,"balance is not enough");
@@ -58,7 +62,7 @@ contract MyERC20{
         return true;
     }
     //普通转账
-    function transfer(address to, uint256 _value) external returns (bool){
+    function transfer(address to, uint256 _value) public returns (bool){
         require(to!=address(0),"address can not is zero");
         require(_value>0,"amount must be more than zero");
         require(myBalances[msg.sender]>=_value,"balance is not enough");
