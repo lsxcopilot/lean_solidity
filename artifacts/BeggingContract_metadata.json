@@ -6,9 +6,34 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_during",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "donor",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "DonationReceived",
+				"type": "event"
 			},
 			{
 				"inputs": [
@@ -37,6 +62,25 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "rankingList",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -78,11 +122,11 @@
 	},
 	"sources": {
 		"tasktwo/BeggingContract.sol": {
-			"keccak256": "0x910f93b6c6e61b43ba2cd5fc35993a53dd16025a355ab89e15e0c99563d28398",
+			"keccak256": "0x6a471d9288c822da663b6581c62142d1de87d10e786aa8e127a2211839269a51",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b76b7c8ee33ec28776f747621f018c5e4787f3f595c9e6638665d0eccda07dec",
-				"dweb:/ipfs/QmcXNvgY1RdGvSXcaPbnH5R7RiCApgJxX9Mba4hZtAM21j"
+				"bzz-raw://82938ac594cf58d2c7d7f7a534251f7500a6253a56d461a41af09e095ab5f9f2",
+				"dweb:/ipfs/QmYMxvskQnaXA2hbS6w3dgEcwosdXKNuNAthXoR7Lci5MQ"
 			]
 		}
 	},
