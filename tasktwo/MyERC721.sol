@@ -46,6 +46,7 @@ contract MyERC721 is ERC721 {
 
     //设置自定义关系
     function setTokenIdToUri(uint256 tokenId,string memory uri) internal {
+        require(bytes(tokenIdToUri[tokenId]).length>0, "ERC721Metadata: URI query for nonexistent token");
         tokenIdToUri[tokenId] = uri;
     }
 
