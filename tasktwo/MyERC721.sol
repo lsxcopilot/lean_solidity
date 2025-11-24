@@ -4,10 +4,13 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract MyERC721 is ERC721 {
+    
     //1.给Counters.Counter添加增强函数
     using Counters for Counters.Counter;
+
     //2. 创建一个计数器
     Counters.Counter private _tokenIds;
+
     //设置最大限制
     uint256 MAX_NUM = 1000;
 
@@ -16,9 +19,9 @@ contract MyERC721 is ERC721 {
    
 
     //设置基础路由(IPFS:https://ipfs.io/ipfs/)
-    //0xfE1d3b475B9C0072681deC2De6b36EA83A5edfc6,https://ipfs.io/ipfs/bafkreiaeom4behwplftheuoryt5rhtrixu2flisl6fqbjad3zcnhs3dow4
+    //0xfE1d3b475B9C0072681deC2De6b36EA83A5edfc6,https://ipfs.io/ipfs/bafkreid6b6xpe36wiff2rzzfps6fqoubh6zeqpeiga7xeshhp3ckbgyqsq
+    //0xfE1d3b475B9C0072681deC2De6b36EA83A5edfc6,https://ipfs.io/ipfs/bafkreid6b6xpe36wiff2rzzfps6fqoubh6zeqpeiga7xeshhp3ckbgyqsq
     //0xfE1d3b475B9C0072681deC2De6b36EA83A5edfc6,https://ipfs.io/ipfs/bafkreidxsbsckhx5roi4fejqpwk2neddrrfs5t6p26xpwwrqlcigre4z2q
-    //0xfE1d3b475B9C0072681deC2De6b36EA83A5edfc6
     //string baseUrl;
 
     //定义事件

@@ -780,11 +780,11 @@
 			]
 		},
 		"tasktwo/MyERC721.sol": {
-			"keccak256": "0xc50882d9c1830a9d83d6f3a338086ba89dcd623173197067696537b94bc8ab68",
+			"keccak256": "0xf735b1e4e3731bf263b4bbae3499e0bbbad55756b2d86dcc32b1c5f1f393becd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1d2ba416cbfedc445faded50b5615d9d89a5c26ebbb59bafd789571c1841c611",
-				"dweb:/ipfs/QmQWMYpg5SaJCL9ksuPvJbtGXYn8yy9wwNgZvpfSzGRFM7"
+				"bzz-raw://2120ce4d9df0ba95cd1c5340cf8ec9fba6949a286c7a9d032b539ae3a743e52d",
+				"dweb:/ipfs/QmT4P3jZ5TaTwZuCZ2jASHntSyyG9MkZD18X7o3VmrF27f"
 			]
 		}
 	},
