@@ -5,6 +5,7 @@ pragma solidity ^0.8.22;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 //使用Chainlink价格预言机接口
 import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 //0x694AA1769357215DE4FAC081bf1f309aDC325306 ETH/USD 测试网地址
@@ -102,7 +103,7 @@ contract MyAuctionUp is Initializable{
     }
 
 
-    //竞拍函数
+    //竞拍函数，预言机通常返回带8位小数的价格，这里除以10^8得到实际美元价格
         //统一的价值尺度 一般是八位小数：
             //ETH 多少 USD  340807710200  ： 1ETH = 3408.07710200 USD
             //USDC 多少 USD  99983000 : 1ERC20(USDC) = 0.99983000 USD
@@ -112,18 +113,27 @@ contract MyAuctionUp is Initializable{
         require((block.timestamp < auction.startTime + auction.duringTime) && !auction.ended, "Auction has ended");
         //2.判断出价是否高于起拍价和当前最高价
         uint256 payValue;
+        //获取代币位数
+        uint256 decimals = 18;
         if(_tokenAddress != address(0)){
-            payValue = (_bidAmount * uint256( getLatestPrice(_tokenAddress))) / (10**8);
+            decimals = IERC20Metadata(_tokenAddress).decimals();
+            payValue = (_bidAmount * uint256( getLatestPrice(_tokenAddress))) /(10**decimals)/ (1e8);
         }else{
              _bidAmount = msg.value;
-             payValue =  (_bidAmount * uint256( getLatestPrice(address(0)))) / (10**8);
+             payValue =  (_bidAmount * uint256( getLatestPrice(address(0)))) /(1e18)/ (1e8);
         }
 
         //需要统一转换成美元进行比较
                 //计算起拍价对应的美元价值
-                uint256 startingPriceInUSD = (auction.startingPrice * uint256(getLatestPrice(_tokenAddress))) /(10**8);
+                uint256 startingPriceInUSD = (auction.startingPrice * uint256(getLatestPrice(address(0)))) /(10**18)/(10**8);
                 //计算当前最高价对应的美元价值
-                uint256 highestBidInUSD = (auction.highestBid * uint256(getLatestPrice(_tokenAddress))) / (10**8);
+                uint256 highestBidInUSD;
+                if(auction.tokenAddress!=address(0)){
+                    highestBidInUSD =  (auction.highestBid * uint256(getLatestPrice(auction.tokenAddress))) /(10**decimals)/ (10**8);
+                }else{
+                    highestBidInUSD =  (auction.highestBid * uint256(getLatestPrice(auction.tokenAddress))) /(1e18)/ (10**8);
+                }
+                
                 //满足出价要求，替换出价
                 require(payValue >= startingPriceInUSD && payValue > highestBidInUSD, "Bid amount is too low");
                
@@ -133,15 +143,16 @@ contract MyAuctionUp is Initializable{
                         //将价值写入合约（合约向自己转账无意义，当用户带有金额成功调用合约时，合约就已经接收了账户金额）
                         //payable(address(this)).transfer(msg.value);
                     }else{
-                        //如果之前最高价是ERC20:从当前合约转移给出价最高的人
+                        //如果之前最高价是ERC20:从当前合约转移给之前出价最高的人
                         IERC20(_tokenAddress).transferFrom(address(this), auction.highestBidder, _bidAmount);
-                        //将代币转移到合约
+                        //将代币转移到合约(将现在出价最高的代币转移给合约)
                         IERC20(_tokenAddress).transferFrom(msg.sender, address(this), _bidAmount);
                     }
 
         //替换出价的最高拍卖者
         auction.highestBid = msg.value;
         auction.highestBidder = msg.sender;
+        auction.tokenAddress = _tokenAddress;
 
         //将最高出价给到合约
         //payable(address(this)).transfer(_bidAmount);
@@ -174,6 +185,15 @@ contract MyAuctionUp is Initializable{
         //关闭窗口
         auction.ended = true;
         
+    }
+
+     //获取token的小数位
+    function getTokenDecimals(address tokenAddress) public view  returns (uint256 decimals) {
+        uint256 decim = IERC20Metadata(tokenAddress).decimals();
+        if (0==decim){
+            return 18;
+        }
+        return  decim;
     }
 
 }

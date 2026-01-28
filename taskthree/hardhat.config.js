@@ -15,7 +15,10 @@ module.exports = {
     }
   },
   namedAccounts:{
-    deployer: 0,
+    deployer: {
+      default: 0,
+      sepolia: 1
+    },
     user1: 1,
     user2: 2,
   }

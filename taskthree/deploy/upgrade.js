@@ -7,6 +7,9 @@ module.exports = async ({getNamedAccounts,deployments}) =>{
     const { save } = deployments;
     const { deployer } = await getNamedAccounts();
     console.log("当前升级地址：",deployer)
+    //获取指定账户
+    const signer = await ethers.getSigner(deployer);
+    
     //读取文件
    const readPath = await path.resolve(__dirname,"../address/proxyNFTContract.json");
    
@@ -15,7 +18,7 @@ module.exports = async ({getNamedAccounts,deployments}) =>{
    const { proxyAddress,implementAddress,abi } = await JSON.parse(readData);
 
    //升级版的业务合约
-   const MyAuctionV2 = await ethers.getContractFactory("MyAuctionV2");
+   const MyAuctionV2 = await ethers.getContractFactory("MyAuctionV2",signer);
    
    //调用升级方法,获取代理合约实例
    const v2 =  await upgrades.upgradeProxy(proxyAddress,MyAuctionV2);

@@ -7,9 +7,10 @@ const { expect } = require("chai");
 
 //编写测试内容
 describe("contact up",async function(){
+    this.timeout(180000);
     beforeEach(async function(){
         //1.部署合约,执行deploy的脚本文件
-        await deployments.fixture(["MyAuctionDeploy","mock"]);
+        await deployments.fixture(["MyAuctionDeploy","mock","MyERC721Deploy"]);
         //从save中提取代理合约地址
         const proxyAddress = await deployments.get("NFTContrctproxy");
         
@@ -19,7 +20,8 @@ describe("contact up",async function(){
         //获取MYNFT的合约
         const myNFT = await deployments.get("MyERC721");
         myNFTContrct =  await ethers.getContractAt("MyERC721",myNFT.address);
-        //进行NFT的授权
+        
+        //进行NFT的授权(调用者（msg.sender） → 授权 → 代理合约（proxyAddress） → 可以转移 → tokenId 0)
         const app = await myNFTContrct.approve(proxyAddress.address,0)
         await app.wait();
 
@@ -51,15 +53,17 @@ describe("contact up",async function(){
 
 describe("start contract",async function(){
     // 增加超时时间到 120 秒
-    this.timeout(120000);
+    this.timeout(180000);
     let myAuctionUp
     let myNFTContrct
     let price = ethers.parseEther("0.03")
     let auctionMapping
     //每次执行it都需要先执行beforeEach保证每个it的测试隔离性
     before(async function(){
+        const {deployer} = await getNamedAccounts();
+        const signer = await ethers.getSigner(deployer);
         //1.部署合约,执行deploy的脚本文件
-        await deployments.fixture(["MyAuctionDeploy","mock"]);
+        await deployments.fixture(["MyAuctionDeploy","mock","MyERC721Deploy"]);
         //从save中提取代理合约地址
         const proxyAddress = await deployments.get("NFTContrctproxy");
         
@@ -68,7 +72,7 @@ describe("start contract",async function(){
         myAuctionUp = await ethers.getContractAt("MyAuctionUp", proxyAddress.address);
         //获取MYNFT的合约
         const myNFT = await deployments.get("MyERC721");
-        myNFTContrct =  await ethers.getContractAt("MyERC721",myNFT.address);
+        myNFTContrct =  await ethers.getContractAt("MyERC721",myNFT.address,signer);
         //进行NFT的授权
         const app = await myNFTContrct.approve(proxyAddress.address,0)
         await app.wait();
@@ -114,6 +118,7 @@ describe("start contract",async function(){
         console.log("-----------竞价开始------------")
         try {
             console.log("拍卖会初始价格：",auctionMapping.startingPrice);
+            console.log("拍卖会的最高出价",auctionMapping.highestBid);
             console.log("出价价格：",ethers.parseEther("0.03"));
             console.log("是否大于初始价格",ethers.parseEther("0.03")>auctionMapping.startingPrice);
             await myAuctionUp.bid(0,ethers.parseEther("0.03"),ethers.ZeroAddress,{

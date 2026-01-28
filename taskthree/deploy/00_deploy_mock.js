@@ -4,9 +4,9 @@ const { DECIMAL,INITIAL_ANSWER } = require("../help-hardhat-config")
 module.exports=async ({getNamedAccounts,deployments}) =>{
 
     const {deployer} = await getNamedAccounts();
-
+    
      //获取部署需要的变量
-    const {deploy,log}  = deployments;
+    const {deploy}  = deployments;
 
     await deploy("MockV3Aggregator",{
         contract:"MockV3Aggregator",

@@ -103,24 +103,24 @@ contract MyAuctionV2 is Initializable{
         //2.判断出价是否高于起拍价和当前最高价
         uint256 payValue;
         if(_tokenAddress != address(0)){
-            payValue = (_bidAmount * uint256( getLatestPrice(_tokenAddress))) / 1e8;
+            payValue = (_bidAmount * uint256( getLatestPrice(_tokenAddress)))/ 1e8;
         }else{
              _bidAmount = msg.value;
-             payValue =  (_bidAmount * uint256( getLatestPrice(address(0)))) / 1e8;
+             payValue =  (_bidAmount * uint256( getLatestPrice(address(0)))) /1e18 / 1e8;
         }
 
         //需要统一转换成美元进行比较
                 //计算起拍价对应的美元价值
-                uint256 startingPriceInUSD = (auction.startingPrice * uint256(getLatestPrice(_tokenAddress))) / 1e8;
+                uint256 startingPriceInUSD = (auction.startingPrice * uint256(getLatestPrice(_tokenAddress)))/1e18 / 1e8;
                 //计算当前最高价对应的美元价值
-                uint256 highestBidInUSD = (auction.highestBid * uint256(getLatestPrice(_tokenAddress))) / 1e8;
+                uint256 highestBidInUSD = (auction.highestBid * uint256(getLatestPrice(auction.tokenAddress))) / 1e8;
                 //满足出价要求，替换出价
                 require(payValue >= startingPriceInUSD && payValue > highestBidInUSD, "Bid amount is too low");
                
                     //如果之前的最高价是ETH
                     if(auction.tokenAddress == address(0)){
                         payable(auction.highestBidder).transfer(auction.highestBid);
-                        //将价值写入合约
+                        //将价值写入合约,payable修饰的值会自动存储msg.value
                         //payable(address(this)).transfer(msg.value);
                     }else{
                         //如果之前最高价是ERC20:从当前合约转移给出价最高的人
@@ -132,9 +132,7 @@ contract MyAuctionV2 is Initializable{
         //替换出价的最高拍卖者
         auction.highestBid = _bidAmount;
         auction.highestBidder = msg.sender;
-
-        //将最高出价给到合约
-        //payable(address(this)).transfer(_bidAmount);
+        auction.tokenAddress = _tokenAddress;
     }
        
         

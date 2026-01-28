@@ -1,5 +1,5 @@
 {
-  "address": "0xeA5DC25D27464168D31A5f201C6EC7D527685162",
+  "address": "0xa5dcC1119A1237B6fEE39344cC6D4cb3c2A42160",
   "abi": [
     "event Initialized(uint8)",
     "function auctionId() view returns (uint256)",
@@ -8,9 +8,10 @@
     "function createAuction(uint256,uint256,uint256,address)",
     "function endAuction(uint256)",
     "function getLatestPrice(address) returns (int256)",
+    "function getTokenDecimals(address) view returns (uint256)",
     "function initialize()",
     "function setTokenPriceFeed(address,address)",
     "function tokenPriceFeedMapping(address) view returns (address)"
   ],
-  "numDeployments": 1
+  "numDeployments": 6
 }
